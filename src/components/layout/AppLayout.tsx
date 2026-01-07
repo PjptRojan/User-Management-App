@@ -13,7 +13,7 @@ const AppLayout = () => {
           setSidebarOpen((prev) => !prev);
         }}
       />
-      <main className="relative">
+      <main className="container mx-auto">
         <Sidebar isOpen={sidebarOpen} />
         <Outlet />
       </main>

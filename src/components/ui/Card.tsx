@@ -1,6 +1,31 @@
-const Card = ({ children }: { children: React.ReactNode }) => {
+import { ArrowRight } from "lucide-react";
+import type { User } from "../../types/user";
+
+interface CardProps {
+  user: User;
+  handleClick: () => void;
+}
+
+const Card = ({ user, handleClick }: CardProps) => {
   return (
-    <div className="bg-white rounded-lg shadow-sm border p-4">{children}</div>
+    <div className="bg-white rounded-lg shadow-sm border p-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        <div>
+          <p className="font-medium text-gray-800">{user.name}</p>
+          <p className="text-sm text-gray-500">{user.email}</p>
+        </div>
+
+        <button
+          className="text-sm text-blue-600 hover:underline flex items-center gap-2 cursor-pointer"
+          onClick={handleClick}
+        >
+          View Details
+          <span>
+            <ArrowRight size={18} />
+          </span>
+        </button>
+      </div>
+    </div>
   );
 };
 
