@@ -1,5 +1,12 @@
+import { BrowserRouter } from "react-router-dom";
+import CustomRoutes from "./router/Index";
+
 const App = () => {
-  return <div>User Management App</div>;
+  return (
+    <BrowserRouter>
+      <CustomRoutes />
+    </BrowserRouter>
+  );
 };
 
 export default App;
