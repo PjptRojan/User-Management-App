@@ -62,10 +62,6 @@ Cached posts by user ID: Avoids repeated API calls when revisiting the same user
 
 Selective Zustand selectors: Subscribing only to required slices of state to prevent infinite render loops
 
-Memoized components (if used): Optimizes rendering for lists and repeated UI elements
-
-Collapsible posts: Improves UX and reduces visual clutter on the detail page
-
 Live search using Zustand: Demonstrates dynamic state updates and reduces unnecessary filtering on unrelated renders
 
 These decisions improve performance, maintainability, and UX without overcomplicating the small application.
