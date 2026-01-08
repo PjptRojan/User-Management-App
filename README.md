@@ -1,73 +1,106 @@
-# React + TypeScript + Vite
+# User Management Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A minimal React + Vite dashboard for managing users, with a focus on state management, responsive design, and interactive UI components.
 
-Currently, two official plugins are available:
+## Project Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This project is a small User Management Dashboard that allows you to:
 
-## React Compiler
+View a list of users fetched from a REST API
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Click on a user to view detailed information, including contact info, company, address, and recent posts
 
-## Expanding the ESLint configuration
+Interact with the application using live search and filtering
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Experience responsive and clean UI with Tailwind CSS
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Explore state management using Zustand for global state
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+The main goal of this project is to demonstrate a clean structure, reusable components, and optimization decisions in a small React application.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Why Zustand Was Chosen
+
+Zustand was selected as the state management solution because:
+
+Lightweight and simple: Perfect for small projects without the boilerplate of Redux
+
+Flexible selectors: Allows components to subscribe only to the slices of state they need, preventing unnecessary re-renders
+
+Supports caching easily: Posts for each user are stored by user ID to avoid repeated API calls
+
+React 18 compatible: Works well with hooks and functional components
+
+This choice shows the ability to handle global state efficiently while keeping the code readable and maintainable.
+
+## Component Structure Explanation
+
+The application is structured in a modular and reusable way:
+
+### Pages
+
+DashboardPage: Displays the list of users, search input, and filtered results
+
+UserDetail: Shows full user details and posts with interactive features
+
+### Components
+
+Loader: Displays a loading indicator during API calls
+
+UserDetailPosts: Collapsible post cards for better UX
+
+UserCard (optional): Can be reused in list or other views
+
+### Store
+
+useUserStore: Zustand store managing users, posts, loading state, error state, and search query
+
+State flows are unidirectional, and derived state (like filtered users) is computed from the store to avoid redundant API calls.
+
+## Optimization / Refactor Decisions
+
+Cached posts by user ID: Avoids repeated API calls when revisiting the same user
+
+Selective Zustand selectors: Subscribing only to required slices of state to prevent infinite render loops
+
+Memoized components (if used): Optimizes rendering for lists and repeated UI elements
+
+Collapsible posts: Improves UX and reduces visual clutter on the detail page
+
+Live search using Zustand: Demonstrates dynamic state updates and reduces unnecessary filtering on unrelated renders
+
+These decisions improve performance, maintainability, and UX without overcomplicating the small application.
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone https://github.com/PjptRojan/User-Management-App.git
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Go to the project directory
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+  cd my-project
 ```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Start the server
+
+```bash
+  yarn dev
+```
+
+
+## Frameworks
+
+React Js, Typescript, Tailwind CSS
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
+
