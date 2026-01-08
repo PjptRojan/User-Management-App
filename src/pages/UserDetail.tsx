@@ -1,42 +1,33 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getUserById, getUserPosts } from "../services/userService";
-import type { Post, User } from "../types/user";
+import type { Post } from "../types/user";
 import { ArrowLeft, Globe, Phone } from "lucide-react";
 import Loader from "../components/ui/Loader";
+import { useUserStore } from "../store/useUserStore";
 
 const UserDetail = () => {
   const { userId } = useParams();
-  const [userDetails, setUserDetails] = useState<User | null>(null);
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
+  const selectedUser = useUserStore((state) => state.selectedUser);
+  const loading = useUserStore((state) => state.loading);
+  const error = useUserStore((state) => state.error);
+  const postsByUserId = useUserStore((state) => state.postsByUserId);
+
+  const posts = postsByUserId[Number(userId)] || [];
+
   useEffect(() => {
-    const fetchUserDetails = async () => {
-      if (!userId) return;
-      try {
-        const id = Number(userId);
+    const id = Number(userId);
+    if (!id) return;
 
-        const [userDetailsRes, userPostsRes] = await Promise.all([
-          getUserById(id),
-          getUserPosts(id),
-        ]);
+    const { fetchUserById, fetchUserPosts } = useUserStore.getState();
 
-        setUserDetails(userDetailsRes);
-        setPosts(userPostsRes);
-      } catch (error) {
-        setError("Failed to fetch user details.");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchUserDetails();
-  }, []);
+    fetchUserById(id);
+    fetchUserPosts(id);
+  }, [userId]);
 
   const { name, email, phone, username, website, address, company } =
-    userDetails ?? {};
+    selectedUser ?? {};
 
   if (loading)
     return (

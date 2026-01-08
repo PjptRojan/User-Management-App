@@ -1,11 +1,11 @@
 import { getUserById, getUserPosts, getUsers } from "../services/userService";
 import type { Post, User } from "../types/user";
-import {create} from 'zustand'
+import { create } from 'zustand'
 
 interface UserStore {
   users: User[];
   selectedUser: User | null;
-  posts: Post[];
+  postsByUserId: Record<number, Post[]>;
   loading: boolean;
   error: string | null;
 
@@ -15,57 +15,53 @@ interface UserStore {
 }
 
 export const useUserStore = create<UserStore>((set, get) => ({
-    users: [],
-    selectedUser: null,
-    posts: [],
-    loading: false,
-    error: null,
+  users: [],
+  selectedUser: null,
+  postsByUserId: {},
+  loading: false,
+  error: null,
 
-    fetchUsers: async () => {
-        if(get().users.length > 0) return;
-
-        set({loading: true, error: null})
-        try {
-            const users = await getUsers();
-            set({ users });
-        } catch (error) {
-            set({ error: "Failed to load users" });
-        } finally {
-      set({ loading: false });
+  fetchUsers: async () => {
+    if (get().users.length > 0) return;
+    
+    set({ loading: true, error: null });
+    
+    try {
+      const users = await getUsers();
+      set({ users, loading: false });
+    } catch (error) {
+      set({ error: "Failed to load users", loading: false });
     }
-    },
+  },
 
-    fetchUserById: async (id) => {
-    const existingUser = get().users.find(u => u.id === id);
-
-    if (existingUser) {
-      set({ selectedUser: existingUser });
-      return;
-    }
+  fetchUserById: async (id) => {
+    const state = get();
+    if (state.selectedUser?.id === id) return;
 
     set({ loading: true, error: null });
+    
     try {
       const user = await getUserById(id);
-      set({ selectedUser: user });
-    } catch {
-      set({ error: "Failed to load user" });
-    } finally {
-      set({ loading: false });
+      set({ selectedUser: user, loading: false });
+    } catch (error) {
+      set({ error: "Failed to load user", loading: false });
     }
   },
 
   fetchUserPosts: async (userId) => {
-    if (get().posts.length > 0) return; 
+    const state = get();
+    if (state.postsByUserId[userId]) return;
 
-    set({ loading: true, error: null });
     try {
       const posts = await getUserPosts(userId);
-      set({ posts });
-    } catch {
+      set({
+        postsByUserId: {
+          ...state.postsByUserId,
+          [userId]: posts,
+        },
+      });
+    } catch (error) {
       set({ error: "Failed to load posts" });
-    } finally {
-      set({ loading: false });
     }
   },
-
 }))

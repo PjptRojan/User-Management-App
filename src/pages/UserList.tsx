@@ -1,29 +1,20 @@
 import Card from "../components/ui/Card";
-import { useEffect, useState } from "react";
-import type { User } from "../types/user";
-import { getUsers } from "../services/userService";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Loader from "../components/ui/Loader";
+import { useUserStore } from "../store/useUserStore";
 
 const UserList = () => {
-  const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
+  const users = useUserStore((state) => state.users);
+  const fetchUsers = useUserStore((state) => state.fetchUsers);
+  const loading = useUserStore((state) => state.loading);
+  const error = useUserStore((state) => state.error);
+
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const data = await getUsers();
-        setUsers(data);
-      } catch (err) {
-        setError("Failed to fetch users");
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchUsers();
-  }, []);
+  }, [fetchUsers]);
 
   if (loading)
     return (
