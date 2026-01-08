@@ -65,6 +65,10 @@ Selective Zustand selectors: Subscribing only to required slices of state to pre
 Live search using Zustand: Demonstrates dynamic state updates and reduces unnecessary filtering on unrelated renders
 
 These decisions improve performance, maintainability, and UX without overcomplicating the small application.
+
+## What Would Be Improved With More Time
+
+If more time were available, the overall design of the dashboard could be enhanced to be more visually appealing and fully responsive, with improved layouts, spacing, and styling to ensure a consistent and polished experience across all screen sizes.
 ## Run Locally
 
 Clone the project
