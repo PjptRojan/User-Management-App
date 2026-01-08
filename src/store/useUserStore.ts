@@ -8,6 +8,8 @@ interface UserStore {
   postsByUserId: Record<number, Post[]>;
   loading: boolean;
   error: string | null;
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
 
   fetchUsers: () => Promise<void>;
   fetchUserById: (id: number) => Promise<void>;
@@ -20,6 +22,8 @@ export const useUserStore = create<UserStore>((set, get) => ({
   postsByUserId: {},
   loading: false,
   error: null,
+  searchQuery: "",
+  setSearchQuery: (query: string) => set({searchQuery: query}),
 
   fetchUsers: async () => {
     if (get().users.length > 0) return;

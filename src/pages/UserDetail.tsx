@@ -42,7 +42,7 @@ const UserDetail = () => {
     <div>
       <button
         className="flex items-center gap-2 cursor-pointer mb-6"
-        onClick={() => navigate("/users-list")}
+        onClick={() => navigate("/")}
       >
         <span>
           <ArrowLeft size={18} />
