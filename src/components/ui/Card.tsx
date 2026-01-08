@@ -1,5 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import type { User } from "../../types/user";
+import Button from "./Button";
 
 interface CardProps {
   user: User;
@@ -21,15 +22,14 @@ const Card = ({ user, handleClick }: CardProps) => {
           </div>
         </div>
 
-        <button
-          className="text-sm text-blue-600 flex items-center gap-2 cursor-pointer"
-          onClick={handleClick}
-        >
-          View Details
-          <span>
-            <ArrowRight size={18} />
-          </span>
-        </button>
+        <Button buttonType="button" handleClick={handleClick}>
+          <div className="flex items-center gap-2 text-blue-600">
+            <p>View Details</p>
+            <span>
+              <ArrowRight size={18} />
+            </span>
+          </div>
+        </Button>
       </div>
     </div>
   );

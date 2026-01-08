@@ -4,6 +4,7 @@ import type { Post } from "../types/user";
 import { ArrowLeft, Globe, Phone } from "lucide-react";
 import Loader from "../components/ui/Loader";
 import { useUserStore } from "../store/useUserStore";
+import Button from "../components/ui/Button";
 
 const UserDetail = () => {
   const { userId } = useParams();
@@ -40,16 +41,13 @@ const UserDetail = () => {
 
   return (
     <div>
-      <button
-        className="flex items-center gap-2 cursor-pointer mb-6"
-        onClick={() => navigate("/")}
-      >
-        <span>
+      <Button buttonType="button" handleClick={() => navigate("/")}>
+        <div className="flex items-center gap-2">
           <ArrowLeft size={18} />
-        </span>
-        <p>Back</p>
-      </button>
-      <div className="flex flex-col gap-6 border border-gray-200 rounded-lg px-6 py-4 shadow-md w-max mx-auto">
+          <p>Back</p>
+        </div>
+      </Button>
+      <div className="flex flex-col gap-6 border border-gray-200 rounded-lg px-6 py-4 shadow-md w-max mx-auto mt-2">
         <div className="flex flex-col sm:flex-row sm:items-center gap-4 ">
           <div className="flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 text-blue-700 text-xl font-semibold">
             {name?.charAt(0)}
